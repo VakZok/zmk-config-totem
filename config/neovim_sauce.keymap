@@ -1,0 +1,117 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+
+#define BASE 0
+#define NAV  1
+#define SYM  2
+#define SYS  3
+
+// -----------------------------------------------------------------------------------------
+//  BEHAVIORS
+// -----------------------------------------------------------------------------------------
+
+&mt {
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <175>;
+    require-prior-idle-ms = <150>;
+};
+
+&lt {
+    flavor = "balanced";
+    tapping-term-ms = <280>;
+    quick-tap-ms = <175>;
+    require-prior-idle-ms = <150>;
+};
+
+/ {
+    macros {
+        // Macro: Redo (Cmd + Shift + Z)
+
+        redo: redo {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings =
+                <&macro_press>,
+                <&kp LGUI &kp LSHFT>,
+                <&macro_tap>,
+                <&kp Z>,
+                <&macro_release>,
+                <&kp LGUI &kp LSHFT>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        // Combo: Both Inner Thumbs -> System Layer
+
+        combo_sys_layer {
+            bindings = <&to SYS>;
+            key-positions = <31 20>;
+            layers = <0>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        // ---------------------------------------------------------------------------------------------------------------------------
+        // LAYER 0: BASE (Colemak-DH)
+        // Note: < > ? are typed via Shift + , . / respectively
+
+        base_layer {
+            label = "BASE";
+            bindings = <
+       &kp Q       &kp W       &kp F        &kp P        &kp B        &kp J    &kp L        &kp U        &kp Y       &kp SEMI
+       &mt LGUI A  &mt LALT R  &mt LCTRL S  &mt LSHFT T  &kp G        &kp M    &mt RSHFT N  &mt RCTRL E  &mt RALT I  &mt RGUI O
+&none  &kp Z       &kp X       &kp C        &kp D        &kp V        &kp K    &kp H        &kp COMMA    &kp DOT     &kp FSLH    &none
+                               &kp DEL      &lt NAV TAB  &kp SPACE    &kp RET  &lt SYM ESC  &kp BSPC
+            >;
+        };
+
+        // ---------------------------------------------------------------------------------------------------------------------------
+        // LAYER 1: NAV (Navigation & Editing)
+        // Left Hand: Macros on Top Row. Modifiers on Home Row (for one-handed shortcuts).
+        // Right Hand: Arrows in "Inverted T" (IJKL style) for Vim feel.
+
+        nav_layer {
+            label = "NAV";
+            bindings = <
+       &kp ESC   &kp LG(X)     &kp LG(C)  &kp LG(V)   &redo        &kp PG_UP  &kp HOME  &kp UP    &kp END    &kp CAPS
+       &kp LGUI  &kp LEFT_ALT  &kp LCTRL  &kp LSHIFT  &kp LG(Z)    &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &none
+&none  &none     &none         &none      &none       &none        &none      &none     &none     &none      &none     &none
+                               &trans     &trans      &trans       &trans     &trans    &trans
+            >;
+        };
+
+        // ---------------------------------------------------------------------------------------------------------------------------
+        // LAYER 2: SYM (Code & Numbers)
+        // Includes dedicated keys for Underscore, Quotes, Backtick.
+        // < > ? are preserved on the comma/dot/slash keys if you press Shift here too.
+
+        sym_layer {
+            label = "SYM";
+            bindings = <
+       &mt TILDE QMARK  &kp LBRC  &kp RBRC  &kp DQT    &mt BSLH PIPE     &kp PLUS   &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_MULTIPLY
+       &mt CARET GRAVE  &kp LPAR  &kp RPAR  &kp UNDER  &mt AMPS HASH     &kp MINUS  &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp KP_N0
+&none  &mt AT DLLR      &kp LBKT  &kp RBKT  &kp SQT    &mt PRCNT EXCL    &kp EQUAL  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_DIVIDE    &none
+                                  &trans    &trans     &trans            &trans     &trans     &trans
+            >;
+        };
+
+        // ---------------------------------------------------------------------------------------------------------------------------
+        // LAYER 3: SYS (Hardware)
+
+        sys_layer {
+            label = "SYS";
+            bindings = <
+       &none  &none  &none     &none     &bt BT_CLR     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+       &none  &none  &none     &none     &sys_reset     &none         &kp S         &kp S         &kp S         &kp S
+&none  &none  &none  &none     &none     &bootloader    &none         &none         &none         &none         &none         &none
+                     &to BASE  &to BASE  &none          &none         &to BASE      &to 0
+            >;
+        };
+    };
+};
