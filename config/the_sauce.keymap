@@ -11,12 +11,34 @@
 //  BEHAVIORS
 // -----------------------------------------------------------------------------------------
 
+/ {
+    behaviors {
+        // CUSTOM HOLD-TAP: "Hold for Symbol A, Tap for Symbol B"
+        // Usage: &ht HOLD_KEY TAP_KEY
+
+        ht: custom_hold_tap {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOLD_TAP_SYMBOLS";
+            #binding-cells = <2>;
+            flavor = "balanced";
+            tapping-term-ms = <280>;
+            quick-tap-ms = <175>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+        };
+    };
+};
+
+// Configuration for standard Mod-Taps (Shift/Ctrl/etc)
+
 &mt {
     flavor = "balanced";
     tapping-term-ms = <280>;
     quick-tap-ms = <175>;
     require-prior-idle-ms = <150>;
 };
+
+// Configuration for Layer-Taps (Thumb keys)
 
 &lt {
     flavor = "balanced";
@@ -45,12 +67,25 @@
     combos {
         compatible = "zmk,combos";
 
-        // Combo: Both Inner Thumbs -> System Layer
-
         combo_sys_layer {
             bindings = <&to SYS>;
-            key-positions = <31 20>;
-            layers = <0>;
+            key-positions = <20 31>;
+        };
+
+        // Exclamation Mark ! (Keys F + P)
+
+        combo_excl {
+            timeout-ms = <50>;
+            key-positions = <2 3>;
+            bindings = <&kp EXCL>;
+        };
+
+        // Question Mark ? (Keys L + U)
+
+        combo_qmark {
+            timeout-ms = <50>;
+            key-positions = <6 7>;
+            bindings = <&kp QMARK>;
         };
     };
 
@@ -59,7 +94,6 @@
 
         // ---------------------------------------------------------------------------------------------------------------------------
         // LAYER 0: BASE (Colemak-DH)
-        // Note: < > ? are typed via Shift + , . / respectively
 
         base_layer {
             label = "BASE";
@@ -72,32 +106,30 @@
         };
 
         // ---------------------------------------------------------------------------------------------------------------------------
-        // LAYER 1: NAV (Navigation & Editing)
-        // Left Hand: Macros on Top Row. Modifiers on Home Row (for one-handed shortcuts).
-        // Right Hand: Arrows in "Inverted T" (IJKL style) for Vim feel.
+        // LAYER 1: NAV (Navigation, Editing, and Media)
 
         nav_layer {
             label = "NAV";
             bindings = <
-       &kp ESC   &kp LG(X)     &kp LG(C)  &kp LG(V)   &redo        &kp PG_UP  &kp HOME  &kp UP    &kp END    &kp CAPS
-       &kp LGUI  &kp LEFT_ALT  &kp LCTRL  &kp LSHIFT  &kp LG(Z)    &kp PG_DN  &kp LEFT  &kp DOWN  &kp RIGHT  &none
-&none  &none     &none         &none      &none       &none        &none      &none     &none     &none      &none     &none
-                               &trans     &trans      &trans       &trans     &trans    &trans
+       &kp ESC        &kp LG(X)      &kp LG(C)   &kp LG(V)   &redo        &kp PG_UP   &kp HOME      &kp UP        &kp END    &kp CAPS
+       &kp LGUI       &kp LALT       &kp LCTRL   &kp LSHFT   &kp LG(Z)    &kp PG_DN   &kp LEFT      &kp DOWN      &kp RIGHT  &none
+&none  &kp C_BRI_DEC  &kp C_BRI_INC  &kp C_PREV  &kp C_NEXT  &kp C_PP     &kp C_MUTE  &kp C_VOL_DN  &kp C_VOL_UP  &none      &none     &none
+                                     &trans      &trans      &trans       &trans      &trans        &trans
             >;
         };
 
         // ---------------------------------------------------------------------------------------------------------------------------
         // LAYER 2: SYM (Code & Numbers)
-        // Includes dedicated keys for Underscore, Quotes, Backtick.
-        // < > ? are preserved on the comma/dot/slash keys if you press Shift here too.
+        // Using &ht (Hold-Tap) instead of &mt
+        // Usage: &ht HOLD_KEY TAP_KEY
 
         sym_layer {
             label = "SYM";
             bindings = <
-       &mt TILDE QMARK  &kp LBRC  &kp RBRC  &kp DQT    &mt BSLH PIPE     &kp PLUS   &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_MULTIPLY
-       &mt CARET GRAVE  &kp LPAR  &kp RPAR  &kp UNDER  &mt AMPS HASH     &kp MINUS  &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp KP_N0
-&none  &mt AT DLLR      &kp LBKT  &kp RBKT  &kp SQT    &mt PRCNT EXCL    &kp EQUAL  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_DIVIDE    &none
-                                  &trans    &trans     &trans            &trans     &trans     &trans
+       &ht TILDE DLLR   &kp LBRC  &kp RBRC  &kp DQT    &ht BSLH PIPE    &kp PLUS   &kp KP_N7  &kp KP_N8  &kp KP_N9  &kp KP_MULTIPLY
+       &ht CARET GRAVE  &kp LPAR  &kp RPAR  &kp UNDER  &kp HASH         &kp MINUS  &kp KP_N4  &kp KP_N5  &kp KP_N6  &kp KP_N0
+&none  &ht PRCNT AT     &kp LBKT  &kp RBKT  &kp SQT    &kp AMPS         &kp EQUAL  &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_DIVIDE    &none
+                                  &trans    &trans     &trans           &trans     &trans     &trans
             >;
         };
 
@@ -107,10 +139,10 @@
         sys_layer {
             label = "SYS";
             bindings = <
-       &none  &none  &none     &none     &bt BT_CLR     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-       &none  &none  &none     &none     &sys_reset     &none         &kp S         &kp S         &kp S         &kp S
-&none  &none  &none  &none     &none     &bootloader    &none         &none         &none         &none         &none         &none
-                     &to BASE  &to BASE  &none          &none         &to BASE      &to 0
+       &none  &none  &none  &none  &bt BT_CLR     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+       &none  &none  &kp S  &none  &sys_reset     &sys_reset    &none         &kp S         &none         &none
+&none  &none  &none  &none  &none  &bootloader    &bootloader   &none         &none         &none         &none         &none
+                     &none  &none  &to 0          &to 0         &none         &none
             >;
         };
     };
