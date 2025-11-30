@@ -111,9 +111,9 @@
         nav_layer {
             label = "NAV";
             bindings = <
-       &kp ESC        &kp LG(X)      &kp LG(C)   &kp LG(V)   &redo        &kp PG_UP   &kp HOME      &kp UP        &kp END    &kp CAPS
-       &kp LGUI       &kp LALT       &kp LCTRL   &kp LSHFT   &kp LG(Z)    &kp PG_DN   &kp LEFT      &kp DOWN      &kp RIGHT  &none
-&none  &kp C_BRI_DEC  &kp C_BRI_INC  &kp C_PREV  &kp C_NEXT  &kp C_PP     &kp C_MUTE  &kp C_VOL_DN  &kp C_VOL_UP  &none      &none     &none
+       &kp ESC        &kp LG(X)      &kp LG(C)   &kp LG(V)   &redo        &kp PG_UP   &kp HOME      &kp END       &kp CAPS  &none
+       &kp LGUI       &kp LALT       &kp LCTRL   &kp LSHFT   &kp LG(Z)    &kp PG_DN   &kp LEFT      &kp DOWN      &kp UP    &kp RIGHT
+&none  &kp C_BRI_DEC  &kp C_BRI_INC  &kp C_PREV  &kp C_NEXT  &kp C_PP     &kp C_MUTE  &kp C_VOL_DN  &kp C_VOL_UP  &none     &none      &none
                                      &trans      &trans      &trans       &trans      &trans        &trans
             >;
         };
@@ -139,10 +139,10 @@
         sys_layer {
             label = "SYS";
             bindings = <
-       &none  &none  &none  &none  &bt BT_CLR     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-       &none  &none  &kp S  &none  &sys_reset     &sys_reset    &none         &kp S         &none         &none
-&none  &none  &none  &none  &none  &bootloader    &bootloader   &none         &none         &none         &none         &none
-                     &none  &none  &to 0          &to 0         &none         &none
+       &none  &none  &none  &none       &bt BT_CLR     &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+       &none  &none  &kp S  &none       &none          &none         &none         &kp S         &none         &none
+&none  &none  &none  &none  &sys_reset  &bootloader    &bootloader   &sys_reset    &none         &none         &none         &none
+                     &none  &none       &to 0          &to 0         &none         &none
             >;
         };
     };
