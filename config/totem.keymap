@@ -126,10 +126,10 @@
         sym_layer {
             label = "SYM";
             bindings = <
-       &ht TILDE DLLR  &kp LBRC       &kp RBRC        &kp DQT           &ht BSLH PIPE     &kp PLUS   &kp KP_N7         &kp KP_N8        &kp KP_N9       &kp KP_MULTIPLY
-       &ht LGUI GRAVE  &mt LALT LPAR  &mt LCTRL RPAR  &mt LSHIFT UNDER  &kp HASH          &kp MINUS  &mt RSHIFT KP_N4  &mt RCTRL KP_N5  &mt RALT KP_N6  &mt RGUI KP_N0
-&none  &ht PRCNT AT    &kp LBKT       &kp RBKT        &kp SQT           &mt CARET AMPS    &kp EQUAL  &kp KP_N1         &kp KP_N2        &kp KP_N3       &kp KP_DIVIDE    &none
-                                      &trans          &trans            &trans            &trans     &trans            &trans
+       &ht TILDE DLLR  &kp LBRC       &kp RBRC        &kp DQT           &ht BSLH PIPE     &kp PLUS   &kp N7         &kp N8        &kp N9       &kp STAR
+       &ht LGUI GRAVE  &mt LALT LPAR  &mt LCTRL RPAR  &mt LSHIFT UNDER  &kp HASH          &kp MINUS  &mt RSHIFT N4  &mt RCTRL N5  &mt RALT N6  &mt RGUI N0
+&none  &ht PRCNT AT    &kp LBKT       &kp RBKT        &kp SQT           &mt CARET AMPS    &kp EQUAL  &kp N1         &kp N2        &kp N3       &kp FSLH     &none
+                                      &trans          &trans            &trans            &trans     &trans         &trans
             >;
         };
 
